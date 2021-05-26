@@ -23,4 +23,27 @@ class User{
   public getIsLogged():boolean {
     return this.isLogged;
   }
+
+  public setEmail(email: string): void{
+    this.email = email;
+
+  }
+  public getEmail(): string{
+    return this.email;
+
+  }
+  public setName(name: string): void{
+    this.name = name;
+  }
+  public getName(): string{
+    return this.name;
+  }
+  public setId(id: number) {
+    this.id = id;
+  }
+  public getId() {
+    return this.id;
+  }
+
+
 }

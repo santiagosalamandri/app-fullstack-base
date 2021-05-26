@@ -1,7 +1,8 @@
 class Main{
-    
+    public myFramework: MyFramework;
     public main(): void {
         console.log("Se ejecuto el metodo main!!!");
+        this.myFramework = new MyFramework();
         let listaUsr: Array<User> = new Array<User>();
 
         let usr1 = new User(1, "matias", "mramos@asda.com", true);
@@ -17,15 +18,13 @@ class Main{
             listaUsr[obj].printInfo();
         }
     }
-    public getElementById(): HTMLElement{
-        return document.getElementById("boton");
-    }
+
     
 }
 window.onload = function ejecutar() {
     let miObjMain: Main = new Main();
     miObjMain.main();
-    let boton = miObjMain.getElementById();
+    let boton = miObjMain.myFramework.getElementById("boton");
     boton.textContent="Nuevo texto"
 };
 
