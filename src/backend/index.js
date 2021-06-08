@@ -32,7 +32,9 @@ app.get('/devices/', function(req, res, next) {
     ]
     res.send(JSON.stringify(devices)).status(200);
 });
-
+app.post('/devices/', function(req, res, next) {
+    res.send("Cambio realizado");
+});
 app.listen(PORT, function(req, res) {
     console.log("NodeJS API running correctly");
 });

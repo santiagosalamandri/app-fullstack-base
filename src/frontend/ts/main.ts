@@ -1,4 +1,4 @@
-class Main implements EventListenerObject{
+class Main implements EventListenerObject, HandlerPost{
     public myFramework: MyFramework;
     public main(): void {
         console.log("Se ejecuto el metodo main!!!");
@@ -24,41 +24,69 @@ class Main implements EventListenerObject{
     public handleEvent(ev: Event) {
 
         alert("Se hizo click!");
-        console.log(ev.target);
+    
 
         let objetoClick: HTMLElement = <HTMLElement>ev.target;
         
         if (objetoClick.textContent == "Listar") {
-            //this.mostrarLista();    
+            
             let xhr: XMLHttpRequest = new XMLHttpRequest();
             xhr.onreadystatechange = () => {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
                         console.log("Llego la respuesta!!!!");
                         console.log(xhr.responseText);
-                        let parrafo = this.myFramework.getElementById("lista");
-                        parrafo.innerHTML = xhr.responseText;
-                        
-                        
 
+                        let listaDis: Array<Device> = JSON.parse(xhr.responseText);
                         
+                        for (let disp of listaDis ){
+                        
+                            let listaDisp = this.myFramework.getElementById("listaDisp");
+                            listaDisp.innerHTML += `<li class="collection-item avatar">
+                            <img src="./static/images/lightbulb.png" alt="" class="circle">
+                            <span class="nombreDisp">${disp.name}</span>
+                            <p>${disp.description}
+                            </p>
+                            <a href="#!" class="secondary-content">
+                                <div class="switch">
+                                    <label >
+                                      Off
+                                      <input id="disp_${disp.id}" type="checkbox">
+                                      <span class="lever"></span>
+                                      On
+                                    </label>
+                                  </div>
+                            </a>
+                          </li>`;
+                         
+                            
+                        }
 
+                        for (let disp of listaDis) {
+                            let checkDisp = this.myFramework.getElementById("disp_" + disp.id);
+                            checkDisp.addEventListener("click", this);
+                        }
                     } else {
                         alert("error!!")
                     }
-                    
                 }
-                
             }
             xhr.open("GET","http://localhost:8000/devices",true)
             xhr.send();
             console.log("Ya hice el request!!")
 
-        } else {
-            alert("No hay nada que mostrar");
+        } else {         
+            let checkBox: HTMLInputElement = <HTMLInputElement>ev.target;
+            alert(checkBox.id + " - " + checkBox.checked);
+
+            let datos = {"id":checkBox.id,"status":checkBox.checked}
+            this.myFramework.requestPOST("http://localhost:8000/devices", this,datos);
+
         }
-        
-        
+    }
+
+    responsePost(status: number, response: string) {
+        alert(response);
     }
 
     
@@ -73,7 +101,7 @@ window.addEventListener("load", ()=> {
     let btnCerrar: HTMLElement = miObjMain.myFramework.getElementById("btnCerrar");
     btnCerrar.addEventListener("dblclick", miObjMain);
     
-};
+});
 
 
 

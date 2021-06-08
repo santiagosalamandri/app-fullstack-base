@@ -8,3 +8,18 @@ body {
 main {
     flex: 1 0 auto;
 }
+
+
+.colorFondo{
+    background-color: rgb(189, 104, 104);
+       
+}
+.nombreDisp{
+    font-size: 25px;
+    color: rgb(161, 48, 48);
+}
+
+.switch label .lever {
+    width: 100px ;
+}
+
