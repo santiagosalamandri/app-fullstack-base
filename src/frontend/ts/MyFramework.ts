@@ -1,5 +1,5 @@
-class MyFramework{
-  public getElementById(id:string): HTMLElement{
+class MyFramework {
+  public getElementById(id: string): HTMLElement {
     return document.getElementById(id);
   }
 
@@ -14,7 +14,22 @@ class MyFramework{
     xlm.open("POST", url, true);
     xlm.setRequestHeader("Content-Type", "application/json");
 
-    
+
     xlm.send(JSON.stringify(datos));
+  }
+  /**
+   * requestGET
+   */
+  public requestGET(url: string, response: HandlerPost) {
+    let xhr: XMLHttpRequest = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState == 4) {
+        console.log("xhr.status: "+xhr.status);
+        response.responseGet(xhr.status, xhr.responseText);
+      }
+    }
+    xhr.open("GET", "http://localhost:8000/devices", true)
+    xhr.send();
+    console.log("Ya hice el request!!")
   }
 }
