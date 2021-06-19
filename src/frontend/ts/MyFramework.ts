@@ -13,8 +13,6 @@ class MyFramework {
     }
     xlm.open("POST", url, true);
     xlm.setRequestHeader("Content-Type", "application/json");
-
-
     xlm.send(JSON.stringify(datos));
   }
   /**
@@ -24,11 +22,11 @@ class MyFramework {
     let xhr: XMLHttpRequest = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
       if (xhr.readyState == 4) {
-        console.log("xhr.status: "+xhr.status);
+        console.log("xhr.status: " + xhr.status);
         response.responseGet(xhr.status, xhr.responseText);
       }
     }
-    xhr.open("GET", "http://localhost:8000/devices", true)
+    xhr.open("GET", url, true)
     xhr.send();
     console.log("Ya hice el request!!")
   }

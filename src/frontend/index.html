@@ -25,26 +25,71 @@
             <h3>Smart Home Web Client!</h3>
             <br />
             <div class="row">
-
-                <div class="col l2 s12 m6">
+                <div class="col l12 s12 m12">
                     <a id="boton" class="waves-effect waves-light btn">Click!!</a>
                 </div>
-                
-                <div class="col l8 s12 m12">
-                    <p id="lista"></p>
-                    <ul id="listaDisp" class="collection">
+            </div>
+            <div class="col l12 s12 m12">
+                <a class="waves-effect waves-light btn modal-trigger" href="#modal">Agregar
+                    dispositivo</a>
+            </div>
+            <div class="col l12 s12 m12">
+                <div class="row" id="listaDisp"></div>
+            </div>
+            <div class="col s4 m4 l2 xl2">
 
-                    </ul>
-                </div>
-                <div class="input-field col s12 m12 l12 xl12">
-                    <textarea id="textarea_1" class="materialize-textarea" style="height: 150px;" readonly></textarea>
-                </div>
-                <div class="col s4 m4 l2 xl2">
-                    <button class="btn waves-effect waves-light button-view" onclick="SayHello();"
-                        name="hello_button">PRESS ME</button>
+
+                <!-- Modal Structure -->
+                <div id="modal" class="modal">
+                    <div class="modal-content">
+                        <h4>Nuevo dispositivo</h4>
+                        <div class="row">
+                            <form class="col s12">
+                                <div class="row">
+                                    <div class="input-field col">
+                                        Nombre
+                                        <input placeholder="Nombre del dispositivo" id="name" type="text"
+                                            class="validate">
+                                        <label for="name"></label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col">
+                                        Descripción
+                                        <input placeholder="Descripción del dispositivo" id="description" type="text"
+                                            class="validate">
+                                        <label for="description"></label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    Tipo:
+                                    <p>
+                                        <label>
+                                            <input name="group1" type="radio" checked />
+                                            <span>On/Off</span>
+                                        </label>
+                                    </p>
+                                    <p>
+                                        <label>
+                                            <input name="group1" type="radio" />
+                                            <span>Dimerizable</span>
+                                        </label>
+                                    </p>
+                                </div>
+
+                            </form>
+                            <div class="row">
+                                <div class="modal-footer">
+                                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agregar</a>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+
     </main>
     <!-- Page Footer -->
     <footer class="page-footer colorFondo">
@@ -52,7 +97,7 @@
             <div class="row">
                 <div class="col l6 s6">
                     <h5 class="white-text">Smart Home</h5>
-                    <p class="grey-text text-lighten-4">Copyright ### - 2021</p>
+                    <p class="grey-text text-lighten-4">Copyright 2021</p>
                 </div>
                 <div class="col l6 s6">
                     <h5 class="white-text right-align">Contact</h5>
