@@ -30,4 +30,16 @@ class MyFramework {
     xhr.send();
     console.log("Ya hice el request!!")
   }
+  public requestDELETE(url: string, response: HandlerPost, datos: any) {
+    let xhr: XMLHttpRequest = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState == 4) {
+        console.log("xhr.status: " + xhr.status);
+        response.responseGet(xhr.status, xhr.responseText);
+      }
+    }
+    xhr.open("DELETE", url, true)
+    xhr.send();
+    console.log("Ya hice el request!!")
+  }
 }
