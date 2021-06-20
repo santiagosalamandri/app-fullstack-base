@@ -32,12 +32,15 @@ app.get('/devices/:id', function(req, res) {
 
 //Ejercicio 6
 //Espera recibir {id:1,state:1/0} , impacta el cambio y lo devuelve
-app.post('/devices/', function(req, res) {
-    let datosFiltrados = datos.filter(item => item.id == req.body.id);
+app.post('/devices/:id', function(req, res) {
+    let datosFiltrados = datos.filter(item => item.id == req.params.id);
     if (datosFiltrados.length > 0) {
         datosFiltrados[0].state = req.body.state;
+        res.json({"state":datosFiltrados[0].state});
     }
-    res.json(datosFiltrados);
+    else{
+        res.status(404).json({"Error":"Not Found"});
+    }
     //res.send("Todo ok");
 });
 
@@ -52,11 +55,28 @@ app.delete('/devices/:id', function(req, res) {
         res.status(404).json({"Error":"Not Found"});
     }
 });
+app.put('/devices/:1', function(req, res) {
+    //let datosFiltrados = datos.filter(item => item.id == req.params.id);
+    if(req.body.name | req.body.description | req.body.type){
+        datos.push({"id":datos.length+1,"name":req.body.name,"description":req.body.description,"type":req.body.type,"status":0});
+        res.json(datos);    
+    }
+    else{
+        res.status(400).json({"Error":"Formato incorrecto"});
+    }
+    
+});
 
-app.put('/devices/:id', function(req, res) {
-    let datosFiltrados = datos.filter(item => item.id == req.params.id);
-    datos.splice(req.params.id-1,1)
-    res.json(datos);
+app.post('/devices/', function(req, res) {
+    //let datosFiltrados = datos.filter(item => item.id == req.params.id);
+    if(req.body.name != undefined && req.body.description != undefined && req.body.type != undefined){
+        datos.push({"id":datos.length+1,"name":req.body.name,"description":req.body.description,"type":req.body.type,"status":0});
+        res.json(datos);    
+    }
+    else{
+        res.status(400).json({"Error":"Formato incorrecto"});
+    }
+    
 });
 
 //=======[ Main module code ]==================================================
