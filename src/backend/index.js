@@ -37,10 +37,27 @@ app.post('/devices/', function(req, res) {
     if (datosFiltrados.length > 0) {
         datosFiltrados[0].state = req.body.state;
     }
-    //res.json(datosFiltrados);
-    res.send("Todo ok");
+    res.json(datosFiltrados);
+    //res.send("Todo ok");
 });
 
+app.delete('/devices/:id', function(req, res) {
+    //let datosFiltrados = datos.filter(item => item.id == (req.params.id)-1);
+    let index = datos.findIndex(item => item.id == req.params.id);
+    if(index>=0){
+        datos.splice(index,1); 
+        res.json(datos);
+    }
+    else{
+        res.status(404).json({"Error":"Not Found"});
+    }
+});
+
+app.put('/devices/:id', function(req, res) {
+    let datosFiltrados = datos.filter(item => item.id == req.params.id);
+    datos.splice(req.params.id-1,1)
+    res.json(datos);
+});
 
 //=======[ Main module code ]==================================================
 app.listen(PORT, function(req, res) {

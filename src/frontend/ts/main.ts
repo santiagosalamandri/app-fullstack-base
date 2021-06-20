@@ -34,6 +34,8 @@ class Main implements EventListenerObject, HandlerPost {
     public listDevices(devices: Array<Device>) {
         let showSwitch = "";
         let showSlider = "";
+        let listaDisp = this.myFramework.getElementById("listaDisp");
+        listaDisp.innerHTML = "";
 
         for (let disp of devices) {
             console.log(disp.type);
@@ -122,6 +124,10 @@ class Main implements EventListenerObject, HandlerPost {
         //this.deviceChanged.type=typeOnOff.checked;
         console.log("TYPE dimm: " + typeDim.checked);
 
+        let type = typeOnOff.checked ? 0 : 1;
+
+        return {"name":name.value,"description":desc.value,"type":type};
+
         //let device:Device =new Device;
     }
     public handleEvent(ev: Event) {
@@ -135,21 +141,24 @@ class Main implements EventListenerObject, HandlerPost {
             case "Editar":
                 //TODO: Abrir modal
                 let str = objetoClick.id.replace("edit_", "");
-                //console.log("editar " +str);
+                console.log("editar " +str);
                 this.populateForm(parseInt(str));
+                //let device={s:"s"};
+                //this.myFramework.requestPut(`http://localhost:8000/devices/${strId}`, this,device);
+
                 break;
             case "Eliminar":
                 //console.log("eliminar " + objetoClick.id);
                 let strId = objetoClick.id.replace("del_", "");
-                this.removeDeviceById(parseInt(strId));
+                //this.removeDeviceById(parseInt(strId));
                 //let id = { "id": objetoClick.id }
                 //this.printDevices();
-                //this.myFramework.requestDELETE("http://localhost:8000/devices", this, id);
+                this.myFramework.requestDELETE(`http://localhost:8000/devices/${strId}`, this);
                 //TODO:enviar delete
                 break;
             case "Confirmar":
                 console.log("se apreto Confirmar");
-                this.getValuesFromForm();
+                console.log(JSON.stringify(this.getValuesFromForm()));
                 //TODO: Enviar cambios
                 break;
             case "Descartar":
@@ -199,10 +208,21 @@ class Main implements EventListenerObject, HandlerPost {
         }
     }
     responseDelete(status: number, response: string) {
-        console.log("response from Delete");
+        console.log("response from Delete "+ status);
+        if(status==200){
+            console.log(response);
+            this.responseGet(200,response);
+            //this.myDevices = JSON.parse(response);
+            //this.listDevices(this.myDevices);
+        }
+        else
+
     }
     responsePut(status: number, response: string) {
         console.log("response from Put");
+        if(status==200){
+            //TODO: Update list
+        }
     }
 
 }
