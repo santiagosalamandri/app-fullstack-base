@@ -29,7 +29,7 @@ class Main implements EventListenerObject, HandlerPost {
     }
     public printDevices() {
         for (let device of this.myDevices) {
-            console.log(device.id + " :" + device.name + " Desc:" + device.description)
+            console.log(device.id + " :" + device.name + " Desc:" + device.description+" Status:"+device.status+" State:"+device.state)
         }
     }
     public listDevices(devices: Array<Device>) {
@@ -37,23 +37,16 @@ class Main implements EventListenerObject, HandlerPost {
         let showSlider = "";
         let listaDisp = this.myFramework.getElementById("listaDisp");
         listaDisp.innerHTML = "";
-        let value =0;
-        let check = "";
 
         for (let disp of devices) {
+            console.log("state: "+JSON.stringify(disp.status));
             if (disp.type == 0) {
                 showSwitch = "block";
                 showSlider = "none";
-                check = disp.state ? "unchecked" : "checked";
-                console.log("check: "+check);
-
             }
             else {
                 showSwitch = "none";
                 showSlider = "block";
-                value = disp.status;
-                console.log("value: "+value);
-
             }
             let listaDisp = this.myFramework.getElementById("listaDisp");
             listaDisp.innerHTML += `<div class="col">
@@ -70,7 +63,7 @@ class Main implements EventListenerObject, HandlerPost {
                                                         </label>
                                                     </div>
                                                     <div class="range-field" style="display:${showSlider}" >
-                                                        <input type="range" id="range_${disp.id}" min="0" max="100" />
+                                                        <input type="range" id="range_${disp.id}"  min="0" max="100" />
                                                         </div>      
                                             </div>
                                             <div class="card-action">
@@ -90,7 +83,10 @@ class Main implements EventListenerObject, HandlerPost {
             datos[0].type = deviceUpdated.type;
             datos[0].state = deviceUpdated.state;
             datos[0].status = deviceUpdated.status;
-            console.log("ACTULIZADO DATOS: "+JSON.stringify(datos[0]));
+            //console.log("ACTUALIZADO DATOS: "+JSON.stringify(datos[0]));
+        }
+        else{   //nuevo dispositivo
+            this.myDevices.push(deviceUpdated);
         }
         this.responseGet(200, JSON.stringify(this.myDevices));
     }
@@ -200,14 +196,14 @@ class Main implements EventListenerObject, HandlerPost {
                 let idDevice = "";
                 if (res == "range_") {
                     idDevice = checkBox.id.replace("range_", "");
-                    datos = { "state": checkBox.value }
+                    datos = { "status": checkBox.value }
                 }
                 else {
                     idDevice = checkBox.id.replace("disp_", "");
                     let value = checkBox.checked ? 100 : 0;
-                    datos = { "status": value }
+                    datos = { "state": checkBox.checked };
                 }
-
+                console.log("enviando datos de "+ checkBox.id+" "+ JSON.stringify(datos));
                 let id = parseInt(idDevice);
                 this.myFramework.requestPOST(`http://localhost:8000/devices/${id}`, this, datos);
                 break;
@@ -217,13 +213,13 @@ class Main implements EventListenerObject, HandlerPost {
     responsePost(status: number, response: string) {
         //TODO: utilizar el response para actualizar la lista
         //alert(response);
+        console.log("Response POST: " + response);
         if (status == 200) {
-           // this.updateDeviceStatus(response);
+            this.updateDeviceStatus(response);
         }
         else {
             alert("Request fallida");
         }
-        console.log("Response POST: " + response);
     }
     responseGet(status: number, response: string) {
         if (status == 200) {
@@ -241,6 +237,22 @@ class Main implements EventListenerObject, HandlerPost {
                 checkEdit.addEventListener("click", this);
                 let checkDel = this.myFramework.getElementById("del_" + disp.id);
                 checkDel.addEventListener("click", this);
+                if(disp.type==1){
+                    let update =<HTMLInputElement> this.myFramework.getElementById("range_" + disp.id);
+                    update.value= disp.status.toString();
+                }
+                else{
+                    let update =<HTMLInputElement> this.myFramework.getElementById("disp_" + disp.id);
+                    console.log("cambiando swtich");
+                    update.checked= disp.state;
+                    update.value= disp.status.toString();
+
+                }
+
+
+//                update.checked= (disp.state);
+                
+                //console.log("disp "+JSON.stringify(disp));
             }
         }
         else {

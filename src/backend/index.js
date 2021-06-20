@@ -35,16 +35,12 @@ app.get('/devices/:id', function (req, res) {
 app.post('/devices/:id', function (req, res) {
     let datosFiltrados = datos.filter(item => item.id == req.params.id);
     if (datosFiltrados.length > 0) {
-        if (req.body.status != undefined) {
-            datosFiltrados[0].status = req.body.status;
+        if (datosFiltrados[0].type == 1) {
+            datosFiltrados[0].status = parseInt(req.body.status);
             res.status(200).json(datosFiltrados[0]);
-        }else if(req.body.state != undefined){
+        }else {
             datosFiltrados[0].state = req.body.state;
             res.status(200).json(datosFiltrados[0]);
-        }
-        else {
-            res.status(404).json({ "Error": "Not Found" });
-
         }
     }
     else {
