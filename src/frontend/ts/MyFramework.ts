@@ -42,7 +42,7 @@ class MyFramework {
     xhr.send();
     console.log("Ya hice el request!!")
   }
-  public requestPut(url: string, response: HandlerPost, datos: any) {
+  public requestPUT(url: string, response: HandlerPost, datos: any) {
     let xlm: XMLHttpRequest = new XMLHttpRequest();
 
     xlm.onreadystatechange = () => {
