@@ -94,6 +94,9 @@ class Main implements EventListenerObject, HandlerPost {
     public populateForm(id: number) {
         let device = this.getDeviceById(id);
 
+        const headerId = this.myFramework.getElementById('headerDisp');
+        headerId.innerText = "Editar dispositivo";
+
         const nameId = this.myFramework.getElementById('formName');
         let name: HTMLInputElement = <HTMLInputElement>nameId;
         //console.log( "name.value "+ name.value);
@@ -122,6 +125,7 @@ class Main implements EventListenerObject, HandlerPost {
 
     }
     public getValuesFromForm() {
+
         const nameId = this.myFramework.getElementById('formName');
         let name: HTMLInputElement = <HTMLInputElement>nameId;
         //this.deviceChanged.name=name.value;
@@ -148,6 +152,22 @@ class Main implements EventListenerObject, HandlerPost {
 
         //let device:Device =new Device;
     }
+    public actualizarModal() {
+        const headerId = this.myFramework.getElementById('headerDisp');
+        headerId.innerText = "Nuevo dispositivo";
+
+        const formNameId = this.myFramework.getElementById('formName');
+        let formName: HTMLInputElement = <HTMLInputElement>formNameId;
+        formName.value = "";
+
+        const formId = this.myFramework.getElementById('formDescription');
+        let formDesc: HTMLInputElement = <HTMLInputElement>formId;
+        formDesc.value = "";
+
+        const typeOnOffId = this.myFramework.getElementById('typeOnOff');
+        let typeOnOff: HTMLInputElement = <HTMLInputElement>typeOnOffId;
+        typeOnOff.checked = true;
+    }
     public handleEvent(ev: Event) {
 
         //alert("Se hizo click!");
@@ -157,38 +177,28 @@ class Main implements EventListenerObject, HandlerPost {
                 this.myFramework.requestGET("http://localhost:8000/devices", this);
                 break;
             case "Editar":
-                //TODO: Abrir modal
                 let str = objetoClick.id.replace("edit_", "");
                 console.log("editar " + str);
                 this.lastIdClicked = parseInt(str);
                 this.populateForm(parseInt(str));
-                //let device={s:"s"};
-                //this.myFramework.requestPut(`http://localhost:8000/devices/${strId}`, this,device);
-
                 break;
             case "Eliminar":
-                //console.log("eliminar " + objetoClick.id);
                 let strId = objetoClick.id.replace("del_", "");
-                //this.removeDeviceById(parseInt(strId));
-                //let id = { "id": objetoClick.id }
-                //this.printDevices();
                 this.myFramework.requestDELETE(`http://localhost:8000/devices/${strId}`, this);
-                //TODO:enviar delete
                 break;
             case "Confirmar":
-                //console.log("se apreto Confirmar");
                 if (this.lastIdClicked != 0) {
                     this.myFramework.requestPUT(`http://localhost:8000/devices/${this.lastIdClicked}`, this, this.getValuesFromForm());
                 } else {
                     this.myFramework.requestPOST(`http://localhost:8000/devices/`, this, this.getValuesFromForm());
                 }
                 this.lastIdClicked;
-                //console.log(JSON.stringify(this.getValuesFromForm()));
-                //TODO: Enviar cambios
+                this.actualizarModal();
                 break;
             case "Descartar":
                 console.log("se apreto Descartar");
                 //TODO: Restaura modal
+                this.actualizarModal();
                 break;
             default:    //Checkbox clicked
                 let checkBox: HTMLInputElement = <HTMLInputElement>objetoClick;
