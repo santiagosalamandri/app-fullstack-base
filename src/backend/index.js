@@ -25,9 +25,14 @@ app.get('/devices/', function (req, res) {
 //Parámetro id = el id del dispositivo a buscar
 // devuelve el dispositivo con el id que viene del parametro
 app.get('/devices/:id', function (req, res) {
-    let datosFiltrados = datos.filter(item => item.id == req.params.id);
+    utils.query(`Select * from smart_home.Devices where id=${req.params.id}`, function (err, rta, field) {
+        if (err) {
+            res.send(err).status(400);
+            return;
+        }
+        res.send(rta);
+    });
 
-    res.json(datosFiltrados[0]);
 });
 
 //Ejercicio 6
@@ -38,7 +43,7 @@ app.post('/devices/:id', function (req, res) {
         if (datosFiltrados[0].type == 1) {
             datosFiltrados[0].status = parseInt(req.body.status);
             res.status(200).json(datosFiltrados[0]);
-        }else {
+        } else {
             datosFiltrados[0].state = req.body.state;
             res.status(200).json(datosFiltrados[0]);
         }
@@ -84,12 +89,31 @@ app.post('/devices/', function (req, res) {
     //let datosFiltrados = datos.filter(item => item.id == req.params.id);
     if (req.body.name != undefined && req.body.description != undefined && req.body.type != undefined) {
         datos.push({ "id": datos.length + 1, "name": req.body.name, "description": req.body.description, "type": req.body.type, "status": 0 });
-        res.json(datos[datos.length-1]);
+        res.json(datos[datos.length - 1]);
     }
     else {
         res.status(400).json({ "Error": "Formato incorrecto" });
     }
 
+});
+
+app.get('/todos', function (req, res, next) {
+    let id=1;
+    let name="Lámpara 2999";
+    let type = 1;
+    let description="nueva lamp";
+    utils.query(`SELECT * FROM smart_home.Devices`, function (err, rta, field) { //get all devices
+
+    //utils.query(`SELECT * FROM smart_home.Devices WHERE id=${id}`, function (err, rta, field) { //get one device
+    //utils.query(`Update smart_home.Devices SET name='${name}' where id=${id}`, function (err, rta, field) {   //update field
+    //utils.query(`INSERT INTO smart_home.Devices(name,description,type) VALUES ('${name}','${description}',${type})`, function (err, rta, field) { //insert
+    //utils.query(`DELETE FROM smart_home.Devices WHERE id=${id}`, function (err, rta, field) { //delete
+        if (err) {
+            res.send(err).status(400);
+            return;
+        }
+        res.send(rta);
+    });
 });
 
 //=======[ Main module code ]==================================================
