@@ -3,7 +3,7 @@ class MyFramework {
     return document.getElementById(id);
   }
 
-  public requestPOST(url: string, response: HandlerPost, datos: any) {
+  public requestPOST(url: string, response: HandlerHttpEvents, datos: any) {
     let xlm: XMLHttpRequest = new XMLHttpRequest();
 
     xlm.onreadystatechange = () => {
@@ -18,7 +18,7 @@ class MyFramework {
   /**
    * requestGET
    */
-  public requestGET(url: string, response: HandlerPost) {
+  public requestGET(url: string, response: HandlerHttpEvents) {
     let xhr: XMLHttpRequest = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
       if (xhr.readyState == 4) {
@@ -30,7 +30,7 @@ class MyFramework {
     xhr.send();
     console.log("Ya hice el request!!")
   }
-  public requestDELETE(url: string, response: HandlerPost) {
+  public requestDELETE(url: string, response: HandlerHttpEvents) {
     let xhr: XMLHttpRequest = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
       if (xhr.readyState == 4) {
@@ -42,7 +42,7 @@ class MyFramework {
     xhr.send();
     console.log("Ya hice el request!!")
   }
-  public requestPUT(url: string, response: HandlerPost, datos: any) {
+  public requestPUT(url: string, response: HandlerHttpEvents, datos: any) {
     let xlm: XMLHttpRequest = new XMLHttpRequest();
 
     xlm.onreadystatechange = () => {

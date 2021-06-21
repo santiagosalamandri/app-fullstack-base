@@ -217,7 +217,7 @@ class Main implements EventListenerObject, HandlerHttpEvents {
                 checkDel.addEventListener("click", this);
                 if (disp.type == 1) {
                     let update = <HTMLInputElement>this.myFramework.getElementById("range_" + disp.id);
-                    update.value = disp.status.toString();
+                    update.value = ""+disp.status;
                 }
                 else {
                     let update = <HTMLInputElement>this.myFramework.getElementById("disp_" + disp.id);
