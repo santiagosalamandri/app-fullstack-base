@@ -1,5 +1,33 @@
 # DAW Base App - Changes Log
 
+## Version 1.1
+
+commit 950d8514caa050e5fd75a53a022b43fc8e4f2761
+Author: santiago salamandri <santiagosalamandri@gmail.com>
+Date:   Mon Jun 21 20:05:32 2021 +0100
+
+    Arreglado valores por defecto en db.
+
+commit 2cc574395e3a4633b73df867e2425e42c7760055
+Author: santiago salamandri <santiagosalamandri@gmail.com>
+Date:   Mon Jun 21 19:54:45 2021 +0100
+
+    archivo user.js removido.
+
+commit 58edfcde860c5dc8a35272d3070e9a52193eeaa7
+Author: santiago salamandri <santiagosalamandri@gmail.com>
+Date:   Mon Jun 21 19:43:10 2021 +0100
+
+    Agregado cambio en la base de datos para que reconozca el campo status.
+
+commit 7a42ca82060c8679a3f384edfda2f855f87c2d75
+Author: santiago salamandri <santiagosalamandri@gmail.com>
+Date:   Mon Jun 21 19:34:13 2021 +0100
+
+    Arreglada interfaz de handlers y agregado fav.ico
+
+## Version 1.0 
+
 commit eb4f0564737cc1a88de82be3cf09db67d16bec9e
 Author: santiago salamandri <santiagosalamandri@gmail.com>
 Date:   Mon Jun 21 15:17:09 2021 +0100
