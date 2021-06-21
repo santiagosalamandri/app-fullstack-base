@@ -44,11 +44,12 @@ class Main implements EventListenerObject, HandlerHttpEvents {
                 showSlider = "block";
             }
             let listaDisp = this.myFramework.getElementById("listaDisp");
-            listaDisp.innerHTML += `<div class="col">
+            listaDisp.innerHTML += `<div class="col l4 s4 m4">
                                         <div class="card blue-grey darken-1" >
                                             <div class="card-content white-text" >
                                                 <span class=card-title> ${disp.name} </span>
-                                                    <p> ${disp.description}.</p>
+                                                    <p> ${disp.description}.</p>            
+                                                    <br />
                                                     <div class="switch" style="display:${showSwitch}">
                                                         <label>
                                                         Off

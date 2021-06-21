@@ -9,7 +9,6 @@ var utils = require('./mysql-connector');
 app.use(express.json());
 app.use(express.static('/home/node/app/static/'));
 
-var datos = require('./datos.json');
 const { json } = require('express');
 
 /**
@@ -62,7 +61,6 @@ app.post('/devices/:id', function (req, res) {
  * Borrar dispositivo
  */
 app.delete('/devices/:id', function (req, res) {
-    //let datosFiltrados = datos.filter(item => item.id == (req.params.id)-1);
     utils.query(`DELETE FROM smart_home.Devices WHERE id=${req.params.id}`, function (err, rta, field) { //delete
         if (err) {
             res.send(err).status(400);
@@ -108,17 +106,14 @@ utils.query(`UPDATE smart_home.Devices SET name='${req.body.name}', description=
  * Agregar nuevo dispositivo
  */
 app.post('/devices/', function (req, res) {
-    //let datosFiltrados = datos.filter(item => item.id == req.params.id);
     if (req.body.name != undefined && req.body.description != undefined && req.body.type != undefined) {
         utils.query(`INSERT INTO smart_home.Devices(name,description,type) VALUES ('${req.body.name}','${req.body.description}',${req.body.type})`, function (err, rta, field) { //insert            if (err) {
             if (err) {
                 res.send(err).status(400);
                 return;
             }
-            //res.send(rta);
             let index = rta.insertId;
             utils.query(`SELECT * FROM smart_home.Devices WHERE id=${index} LIMIT 0,1`, function (err, rta, field) { //get one device
-                // let result=JSON.parse(field);
                 res.send(rta[0]);
             });
 

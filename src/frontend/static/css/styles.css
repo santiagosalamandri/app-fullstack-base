@@ -10,11 +10,10 @@ main {
 }
 
 .colorFondo{
-    background-color: rgb(100, 85, 182);
-       
+    background-color: rgb(96, 125, 139);     
 }
+
 .nombreDisp{
     font-size: 25px;
     color: rgb(161, 48, 48);
 }
-
