@@ -18,18 +18,19 @@ class Main implements EventListenerObject, HandlerPost {
         console.log("NOT FOUND!");
         return null; //Not found
     }
-    public removeDeviceById(id: number) {
+    public removeDeviceById(id: number): Array<Device> {
         console.log("ANTES DE BORRAR: ");
-        this.printDevices();
-        this.myDevices.splice(id - 1, 1);
+        //this.printDevices();
+        let newArray: Array<Device> = this.myDevices.filter(item => item.id != id);
 
         console.log("DESPUES DE BORRAR: ");
-        this.printDevices();
+        //this.printDevices();
+        return newArray;
 
     }
     public printDevices() {
         for (let device of this.myDevices) {
-            console.log(device.id + " :" + device.name + " Desc:" + device.description+" Status:"+device.status+" State:"+device.state)
+            console.log(device.id + " :" + device.name + " Desc:" + device.description + " Status:" + device.status + " State:" + device.state)
         }
     }
     public listDevices(devices: Array<Device>) {
@@ -39,7 +40,7 @@ class Main implements EventListenerObject, HandlerPost {
         listaDisp.innerHTML = "";
 
         for (let disp of devices) {
-            console.log("state: "+JSON.stringify(disp.status));
+            console.log("state: " + JSON.stringify(disp.status));
             if (disp.type == 0) {
                 showSwitch = "block";
                 showSlider = "none";
@@ -85,7 +86,7 @@ class Main implements EventListenerObject, HandlerPost {
             datos[0].status = deviceUpdated.status;
             //console.log("ACTUALIZADO DATOS: "+JSON.stringify(datos[0]));
         }
-        else{   //nuevo dispositivo
+        else {   //nuevo dispositivo
             this.myDevices.push(deviceUpdated);
         }
         this.responseGet(200, JSON.stringify(this.myDevices));
@@ -200,10 +201,10 @@ class Main implements EventListenerObject, HandlerPost {
                 }
                 else {
                     idDevice = checkBox.id.replace("disp_", "");
-                    let value = checkBox.checked ? 100 : 0;
-                    datos = { "state": checkBox.checked };
+                    let value = checkBox.checked ? 1 : 0;
+                    datos = { "state": value };
                 }
-                console.log("enviando datos de "+ checkBox.id+" "+ JSON.stringify(datos));
+                console.log("enviando datos de " + checkBox.id + " " + JSON.stringify(datos));
                 let id = parseInt(idDevice);
                 this.myFramework.requestPOST(`http://localhost:8000/devices/${id}`, this, datos);
                 break;
@@ -237,22 +238,16 @@ class Main implements EventListenerObject, HandlerPost {
                 checkEdit.addEventListener("click", this);
                 let checkDel = this.myFramework.getElementById("del_" + disp.id);
                 checkDel.addEventListener("click", this);
-                if(disp.type==1){
-                    let update =<HTMLInputElement> this.myFramework.getElementById("range_" + disp.id);
-                    update.value= disp.status.toString();
+                if (disp.type == 1) {
+                    let update = <HTMLInputElement>this.myFramework.getElementById("range_" + disp.id);
+                    update.value = disp.status.toString();
                 }
-                else{
-                    let update =<HTMLInputElement> this.myFramework.getElementById("disp_" + disp.id);
+                else {
+                    let update = <HTMLInputElement>this.myFramework.getElementById("disp_" + disp.id);
                     console.log("cambiando swtich");
-                    update.checked= disp.state;
-                    update.value= disp.status.toString();
+                    update.checked = disp.state;
 
                 }
-
-
-//                update.checked= (disp.state);
-                
-                //console.log("disp "+JSON.stringify(disp));
             }
         }
         else {
@@ -264,7 +259,9 @@ class Main implements EventListenerObject, HandlerPost {
         console.log("response from Delete " + status);
         if (status == 200) {
             console.log(response);
-            this.responseGet(200, response);
+            let id = JSON.parse(response);
+            console.log(this.removeDeviceById(id.id));
+            this.responseGet(200, JSON.stringify(this.removeDeviceById(id.id)));
         }
         else {
             alert("Request fallida");
